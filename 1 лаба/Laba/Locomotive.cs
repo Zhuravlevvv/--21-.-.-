@@ -11,20 +11,11 @@ namespace WindowsFormsTep
     {
         protected readonly int trainWidth = 120;
         protected readonly int trainHeight = 80;
-        public Locomotive(int maxSpeed, float weight, Color mainColor)
+        public Locomotive(int maxSpeed, float weight, Color mainColor, Color dopColor)
         {
             MaxSpeed = maxSpeed;
             Weight = weight;
             MainColor = mainColor;
-        }
-        //Конструктор с изменением размеров самолета
-        protected Locomotive(int maxSpeed, float weight, Color mainColor, int trainWidth, int trainHeight)
-        {
-            MaxSpeed = maxSpeed;
-            Weight = weight;
-            MainColor = mainColor;
-            this.trainWidth = trainWidth;
-            this.trainHeight = trainHeight;
         }
         public override void MoveTransport(Direction direction) //передвижение
         {
@@ -73,7 +64,6 @@ namespace WindowsFormsTep
             g.FillEllipse(brBlack, Posx + 80, Posy + 44, 15, 15);
             g.FillEllipse(brBlack, Posx + 92, Posy + 44, 15, 15);
             g.FillEllipse(brBlack, Posx + 104, Posy + 44, 15, 15);
-
             Brush n = new SolidBrush(MainColor); //kuzov
             List<Point> l = new List<Point>(4);
             l.Add(new Point(Posx + 85, Posy + 35));
@@ -90,7 +80,6 @@ namespace WindowsFormsTep
             p.Add(new Point(Posx + 120, Posy + 20));
             p.Add(new Point(Posx + 75, Posy + 15));
             g.FillPolygon(b, p.ToArray<Point>());
-
             Brush m = new SolidBrush(MainColor); //linered
             List<Point> tp = new List<Point>(4);
             tp.Add(new Point(Posx + 10, Posy + 40));
@@ -98,7 +87,6 @@ namespace WindowsFormsTep
             tp.Add(new Point(Posx + 90, Posy + 35));
             tp.Add(new Point(Posx + 90, Posy + 40));
             g.FillPolygon(m, tp.ToArray<Point>());
-
             Brush q = new SolidBrush(MainColor); //verx
             List<Point> tq = new List<Point>(4);
             tq.Add(new Point(Posx + 7, Posy + 21));

@@ -15,7 +15,7 @@ namespace WindowsFormsTep
         public Color DopColor { protected set; get; }
         public Teplovoz(int maxSpeed, float weight, Color mainColor,
             Color dopColor, bool tube, bool line)
-            : base(maxSpeed, weight, mainColor)
+            : base(maxSpeed, weight, mainColor, dopColor)
         {
             MaxSpeed = maxSpeed;
             Weight = weight;
@@ -51,7 +51,6 @@ namespace WindowsFormsTep
             }
             if (Line)
             {
-
                 Brush q = new SolidBrush(DopColor);
                 List<Point> tq = new List<Point>(4);
                 tq.Add(new Point(Posx + 3, Posy + 23));
@@ -69,7 +68,6 @@ namespace WindowsFormsTep
                 tw.Add(new Point(Posx + 105, Posy + 9));
                 tw.Add(new Point(Posx + 105, Posy + 20));
                 tw.Add(new Point(Posx + 90, Posy + 20));
-
                 g.FillPolygon(w, tw.ToArray<Point>());
             }
             if (Tube)
@@ -120,7 +118,6 @@ namespace WindowsFormsTep
                 ty.Add(new Point(Posx + 93, Posy + 22));
                 ty.Add(new Point(Posx + 93, Posy + 50));
                 ty.Add(new Point(Posx + 90, Posy + 50));
-
                 g.FillPolygon(y, ty.ToArray<Point>());
             }
         }

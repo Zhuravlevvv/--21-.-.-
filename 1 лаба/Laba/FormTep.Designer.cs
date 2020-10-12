@@ -30,12 +30,10 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormTep));
             this.pictureBoxTep = new System.Windows.Forms.PictureBox();
-            this.buttonCreateTep = new System.Windows.Forms.Button();
             this.buttonUp = new System.Windows.Forms.Button();
             this.buttonLeft = new System.Windows.Forms.Button();
             this.buttonDown = new System.Windows.Forms.Button();
             this.buttonRight = new System.Windows.Forms.Button();
-            this.buttonCreateLoc = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTep)).BeginInit();
             this.SuspendLayout();
             // 
@@ -47,17 +45,6 @@
             this.pictureBoxTep.Size = new System.Drawing.Size(800, 450);
             this.pictureBoxTep.TabIndex = 0;
             this.pictureBoxTep.TabStop = false;
-            // 
-            // buttonCreateTep
-            // 
-            this.buttonCreateTep.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.buttonCreateTep.Location = new System.Drawing.Point(153, 12);
-            this.buttonCreateTep.Name = "buttonCreateTep";
-            this.buttonCreateTep.Size = new System.Drawing.Size(131, 29);
-            this.buttonCreateTep.TabIndex = 1;
-            this.buttonCreateTep.Text = "Создать тепловоз";
-            this.buttonCreateTep.UseVisualStyleBackColor = true;
-            this.buttonCreateTep.Click += new System.EventHandler(this.buttonCreateTep_Click);
             // 
             // buttonUp
             // 
@@ -111,28 +98,15 @@
             this.buttonRight.UseVisualStyleBackColor = true;
             this.buttonRight.Click += new System.EventHandler(this.buttonMove_Click);
             // 
-            // buttonCreateLoc
-            // 
-            this.buttonCreateLoc.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.buttonCreateLoc.Location = new System.Drawing.Point(16, 12);
-            this.buttonCreateLoc.Name = "buttonCreateLoc";
-            this.buttonCreateLoc.Size = new System.Drawing.Size(131, 29);
-            this.buttonCreateLoc.TabIndex = 6;
-            this.buttonCreateLoc.Text = "Создать локомотив";
-            this.buttonCreateLoc.UseVisualStyleBackColor = true;
-            this.buttonCreateLoc.Click += new System.EventHandler(this.buttonCreateLoc_Click);
-            // 
             // FormTep
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.buttonCreateLoc);
             this.Controls.Add(this.buttonRight);
             this.Controls.Add(this.buttonDown);
             this.Controls.Add(this.buttonLeft);
             this.Controls.Add(this.buttonUp);
-            this.Controls.Add(this.buttonCreateTep);
             this.Controls.Add(this.pictureBoxTep);
             this.Name = "FormTep";
             this.Text = "Тепловоз";
@@ -144,11 +118,9 @@
         #endregion
 
         private System.Windows.Forms.PictureBox pictureBoxTep;
-        private System.Windows.Forms.Button buttonCreateTep;
         private System.Windows.Forms.Button buttonUp;
         private System.Windows.Forms.Button buttonLeft;
         private System.Windows.Forms.Button buttonDown;
         private System.Windows.Forms.Button buttonRight;
-        private System.Windows.Forms.Button buttonCreateLoc;
     }
 }

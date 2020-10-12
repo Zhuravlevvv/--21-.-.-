@@ -7,12 +7,10 @@ using System.Drawing;
 
 namespace WindowsFormsTep
 {
-    interface ITrain
+    public interface ITrain
     {
         void SetPosition(int x, int y, int width, int height);
-
         void MoveTransport(Direction direction);
-
         void DrawTep(Graphics g);
     }
 }
