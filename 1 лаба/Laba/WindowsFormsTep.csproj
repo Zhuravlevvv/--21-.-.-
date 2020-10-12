@@ -53,9 +53,12 @@
     <Compile Include="FormTep.Designer.cs">
       <DependentUpon>FormTep.cs</DependentUpon>
     </Compile>
-    <Compile Include="Teplovoz.cs" />
+    <Compile Include="ITrain.cs" />
+    <Compile Include="Locomotive.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Teplovoz.cs" />
+    <Compile Include="Train.cs" />
     <EmbeddedResource Include="FormTep.resx">
       <DependentUpon>FormTep.cs</DependentUpon>
     </EmbeddedResource>

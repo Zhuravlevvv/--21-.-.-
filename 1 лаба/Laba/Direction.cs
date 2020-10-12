@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WindowsFormsTep
 {
-    enum Direction
+    public enum Direction
     {
         Up,
         Down,
