@@ -9,63 +9,63 @@ namespace WindowsFormsTep
 {
     public class Depo<T> where T : class, ITrain
     {
-        private T[] _places;
-        private int PictureWidth { get; set; }
-        private int PictureHeight { get; set; }
+        private readonly List<T> _places;
+
+        private readonly int _maxCount;
+
+        private readonly int pictureWidth;
+
+        private readonly int pictureHeight;
+
         private const int _placeSizeWidth = 210;
+
         private const int _placeSizeHeight = 80;
-        public Depo(int sizes, int pictureWidth, int pictureHeight)
+
+        public Depo(int picWidth, int picHeight)
         {
-            _places = new T[sizes];
-            PictureWidth = pictureWidth;
-            PictureHeight = pictureHeight;
-            for (int i = 0; i < _places.Length; i++)
-            {
-                _places[i] = null;
-            }
+            int width = picWidth / _placeSizeWidth;
+            int height = picHeight / _placeSizeHeight;
+            _maxCount = width * height;
+            pictureWidth = picWidth;
+            pictureHeight = picHeight;
+            _places = new List<T>();
         }
-        public static int operator +(Depo<T> p, T teplovoz)
+        public static bool operator +(Depo<T> p, T teplovoz)
         {
-            for (int i = 0; i < p._places.Length; i++)
+            if (p._places.Count >= p._maxCount - 3)
             {
-                if (p._places[i] == null)
-                {
-                    p._places[i] = teplovoz;
-                    p._places[i].SetPosition(5 + i / 5 * _placeSizeWidth + 5,
-                     i % 5 * _placeSizeHeight + 15, p.PictureWidth,
-                    p.PictureHeight);
-                    return i;
-                }
+                return false;
             }
-            return -1;
+            p._places.Add(teplovoz);
+            return true;
         }
         public static T operator -(Depo<T> p, int index)
         {
-            if (index >= 0 && index < p._places.Length)
+            if (index <= -1 || index >= p._places.Count)
             {
-                T locomotive = p._places[index];
-                p._places[index] = null;
-                return locomotive;
+                return null;
             }
-            return null;
+            T locomotive = p._places[index];
+            p._places.RemoveAt(index);
+            return locomotive;
         }
         public void Draw(Graphics g)
         {
             DrawMarking(g);
-            for (int i = 0; i < _places.Length; i++)
+            for (int i = 0; i < _places.Count; i++)
             {
-                {
-                    _places[i]?.DrawTep(g);
-                }
+                _places[i].SetPosition(2 + i / 5 * _placeSizeWidth + 5, i % 5 *
+                    _placeSizeHeight + 15, pictureWidth, pictureHeight);
+                _places[i]?.DrawTep(g);
             }
         }
         private void DrawMarking(Graphics g)
         {
             Pen pen = new Pen(Color.Black, 3);
             //границы праковки
-            g.DrawRectangle(pen, 0, 0, (_places.Length / 5) * _placeSizeWidth, 480);
-            for (int i = 0; i < _places.Length / 5; i++)
-            {
+            g.DrawRectangle(pen, 0, 0, (_maxCount / 5) * _placeSizeWidth, 480);
+            for (int i = 0; i < _maxCount / 5; i++)
+            {//отрисовываем, по 5 мест на линии
                 for (int j = 0; j < 6; ++j)
                 {//линия рамзетки места
                     g.DrawLine(pen, i * _placeSizeWidth, j * _placeSizeHeight,
