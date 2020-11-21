@@ -30,6 +30,21 @@ namespace WindowsFormsTep
             Trumpets = trumpets;
             DopOrnament = dopOrnament;
         }
+        public Teplovoz(string info) : base(info)
+        {
+            string[] strs = info.Split(separator);
+            if (strs.Length == 8)
+            {
+                MaxSpeed = Convert.ToInt32(strs[0]);
+                Weight = Convert.ToInt32(strs[1]);
+                MainColor = Color.FromName(strs[2]);
+                DopColor = Color.FromName(strs[3]);
+                Line = Convert.ToBoolean(strs[4]);
+                Tube = Convert.ToBoolean(strs[5]);
+                Trumpets = Convert.ToBoolean(strs[6]);
+                DopOrnament = Convert.ToBoolean(strs[7]);
+            }
+        }
         public void SetDopColor(Color color)
         {
             DopColor = color;
@@ -138,6 +153,12 @@ namespace WindowsFormsTep
 
                 g.FillPolygon(y, ty.ToArray<Point>());
             }
+        }
+        public override string ToString()
+        {
+            return $"{base.ToString()}{separator}{DopColor.Name}" +
+                   $"{separator}{Line}{separator}{Tube}" +
+                   $"{separator}{Trumpets}{separator}{DopOrnament}";
         }
     }
 }

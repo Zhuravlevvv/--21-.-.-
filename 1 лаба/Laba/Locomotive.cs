@@ -11,11 +11,22 @@ namespace WindowsFormsTep
     {
         protected readonly int trainWidth = 120;
         protected readonly int trainHeight = 80;
+        protected readonly char separator = ';';
         public Locomotive(int maxSpeed, float weight, Color mainColor, Color dopColor)
         {
             MaxSpeed = maxSpeed;
             Weight = weight;
             MainColor = mainColor;
+        }
+        public Locomotive(string info)
+        {
+            string[] strs = info.Split(separator);
+            if (strs.Length == 3)
+            {
+                MaxSpeed = Convert.ToInt32(strs[0]);
+                Weight = Convert.ToInt32(strs[1]);
+                MainColor = Color.FromName(strs[2]);
+            }
         }
         public override void MoveTransport(Direction direction) //передвижение
         {
@@ -94,6 +105,10 @@ namespace WindowsFormsTep
             tq.Add(new Point(Posx + 110, Posy + 14));
             tq.Add(new Point(Posx + 20, Posy + 14));
             g.FillPolygon(q, tq.ToArray<Point>());
+        }
+        public override string ToString()
+        {
+            return $"{MaxSpeed}{separator}{Weight}{separator}{MainColor.Name}";
         }
     }
 }

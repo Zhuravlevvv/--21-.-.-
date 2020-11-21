@@ -39,16 +39,22 @@
             this.buttonAddDepo = new System.Windows.Forms.Button();
             this.textBoxNewLevelName = new System.Windows.Forms.MaskedTextBox();
             this.labelLevels = new System.Windows.Forms.Label();
+            this.msMenu = new System.Windows.Forms.MenuStrip();
+            this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.сохранитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.загрузитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDepo)).BeginInit();
             this.groupBoxTake.SuspendLayout();
+            this.msMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // pictureBoxDepo
             // 
-            this.pictureBoxDepo.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pictureBoxDepo.Location = new System.Drawing.Point(0, 0);
+            this.pictureBoxDepo.Location = new System.Drawing.Point(0, 27);
             this.pictureBoxDepo.Name = "pictureBoxDepo";
-            this.pictureBoxDepo.Size = new System.Drawing.Size(761, 543);
+            this.pictureBoxDepo.Size = new System.Drawing.Size(761, 516);
             this.pictureBoxDepo.TabIndex = 0;
             this.pictureBoxDepo.TabStop = false;
             // 
@@ -117,17 +123,17 @@
             // listBoxLevels
             // 
             this.listBoxLevels.FormattingEnabled = true;
-            this.listBoxLevels.Location = new System.Drawing.Point(848, 41);
+            this.listBoxLevels.Location = new System.Drawing.Point(848, 54);
             this.listBoxLevels.Name = "listBoxLevels";
-            this.listBoxLevels.Size = new System.Drawing.Size(120, 56);
+            this.listBoxLevels.Size = new System.Drawing.Size(120, 43);
             this.listBoxLevels.TabIndex = 5;
             // 
             // buttonAddDepo
             // 
             this.buttonAddDepo.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.buttonAddDepo.Location = new System.Drawing.Point(768, 41);
+            this.buttonAddDepo.Location = new System.Drawing.Point(768, 59);
             this.buttonAddDepo.Name = "buttonAddDepo";
-            this.buttonAddDepo.Size = new System.Drawing.Size(74, 56);
+            this.buttonAddDepo.Size = new System.Drawing.Size(74, 38);
             this.buttonAddDepo.TabIndex = 6;
             this.buttonAddDepo.Text = "Добавить депо";
             this.buttonAddDepo.UseVisualStyleBackColor = true;
@@ -135,7 +141,7 @@
             // 
             // textBoxNewLevelName
             // 
-            this.textBoxNewLevelName.Location = new System.Drawing.Point(848, 12);
+            this.textBoxNewLevelName.Location = new System.Drawing.Point(848, 28);
             this.textBoxNewLevelName.Name = "textBoxNewLevelName";
             this.textBoxNewLevelName.Size = new System.Drawing.Size(120, 20);
             this.textBoxNewLevelName.TabIndex = 7;
@@ -143,11 +149,53 @@
             // labelLevels
             // 
             this.labelLevels.AutoSize = true;
-            this.labelLevels.Location = new System.Drawing.Point(782, 15);
+            this.labelLevels.Location = new System.Drawing.Point(782, 31);
             this.labelLevels.Name = "labelLevels";
             this.labelLevels.Size = new System.Drawing.Size(60, 13);
             this.labelLevels.TabIndex = 8;
             this.labelLevels.Text = "Название:";
+            // 
+            // msMenu
+            // 
+            this.msMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.файлToolStripMenuItem});
+            this.msMenu.Location = new System.Drawing.Point(0, 0);
+            this.msMenu.Name = "msMenu";
+            this.msMenu.Size = new System.Drawing.Size(979, 24);
+            this.msMenu.TabIndex = 9;
+            this.msMenu.Text = "menu";
+            // 
+            // файлToolStripMenuItem
+            // 
+            this.файлToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.сохранитьToolStripMenuItem,
+            this.загрузитьToolStripMenuItem});
+            this.файлToolStripMenuItem.Name = "файлToolStripMenuItem";
+            this.файлToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+            this.файлToolStripMenuItem.Text = "Файл";
+            // 
+            // сохранитьToolStripMenuItem
+            // 
+            this.сохранитьToolStripMenuItem.Name = "сохранитьToolStripMenuItem";
+            this.сохранитьToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.сохранитьToolStripMenuItem.Text = "Сохранить";
+            this.сохранитьToolStripMenuItem.Click += new System.EventHandler(this.сохранитьToolStripMenuItem_Click);
+            // 
+            // загрузитьToolStripMenuItem
+            // 
+            this.загрузитьToolStripMenuItem.Name = "загрузитьToolStripMenuItem";
+            this.загрузитьToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.загрузитьToolStripMenuItem.Text = "Загрузить";
+            this.загрузитьToolStripMenuItem.Click += new System.EventHandler(this.загрузитьToolStripMenuItem_Click);
+            // 
+            // saveFileDialog
+            // 
+            this.saveFileDialog.Filter = "txt file | *.txt";
+            // 
+            // openFileDialog
+            // 
+            this.openFileDialog.FileName = "openFileDialog";
+            this.openFileDialog.Filter = "txt file | *.txt";
             // 
             // FormDepo
             // 
@@ -162,11 +210,15 @@
             this.Controls.Add(this.groupBoxTake);
             this.Controls.Add(this.buttonAddTrain);
             this.Controls.Add(this.pictureBoxDepo);
+            this.Controls.Add(this.msMenu);
+            this.MainMenuStrip = this.msMenu;
             this.Name = "FormDepo";
             this.Text = "Депо";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDepo)).EndInit();
             this.groupBoxTake.ResumeLayout(false);
             this.groupBoxTake.PerformLayout();
+            this.msMenu.ResumeLayout(false);
+            this.msMenu.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -185,5 +237,11 @@
         private System.Windows.Forms.Button buttonAddDepo;
         private System.Windows.Forms.MaskedTextBox textBoxNewLevelName;
         private System.Windows.Forms.Label labelLevels;
+        private System.Windows.Forms.MenuStrip msMenu;
+        private System.Windows.Forms.ToolStripMenuItem файлToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem сохранитьToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem загрузитьToolStripMenuItem;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
     }
 }
