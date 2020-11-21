@@ -12,9 +12,13 @@ namespace WindowsFormsTep
     {
         public bool Tube { protected set; get; }
         public bool Line { protected set; get; }
+        public bool Trumpets { protected set; get; }
+        public bool DopOrnament { protected set; get; }
+
         public Color DopColor { protected set; get; }
+
         public Teplovoz(int maxSpeed, float weight, Color mainColor,
-            Color dopColor, bool tube, bool line)
+            Color dopColor, bool tube, bool line, bool trumpets, bool dopOrnament)
             : base(maxSpeed, weight, mainColor, dopColor)
         {
             MaxSpeed = maxSpeed;
@@ -23,10 +27,17 @@ namespace WindowsFormsTep
             DopColor = dopColor;
             Line = line;
             Tube = tube;
+            Trumpets = trumpets;
+            DopOrnament = dopOrnament;
+        }
+        public void SetDopColor(Color color)
+        {
+            DopColor = color;
         }
         public override void DrawTep(Graphics g)
         {
             base.DrawTep(g);
+
             if (Tube)
             {
                 Brush n = new SolidBrush(MainColor);
@@ -38,6 +49,7 @@ namespace WindowsFormsTep
 
                 g.FillPolygon(n, l.ToArray<Point>());
             }
+
             if (Line)
             {
                 Brush m = new SolidBrush(DopColor);
@@ -51,6 +63,7 @@ namespace WindowsFormsTep
             }
             if (Line)
             {
+
                 Brush q = new SolidBrush(DopColor);
                 List<Point> tq = new List<Point>(4);
                 tq.Add(new Point(Posx + 3, Posy + 23));
@@ -60,17 +73,8 @@ namespace WindowsFormsTep
 
                 g.FillPolygon(q, tq.ToArray<Point>());
             }
-            if (Tube)
-            {
-                Brush w = new SolidBrush(DopColor);
-                List<Point> tw = new List<Point>(4);
-                tw.Add(new Point(Posx + 90, Posy + 9));
-                tw.Add(new Point(Posx + 105, Posy + 9));
-                tw.Add(new Point(Posx + 105, Posy + 20));
-                tw.Add(new Point(Posx + 90, Posy + 20));
-                g.FillPolygon(w, tw.ToArray<Point>());
-            }
-            if (Tube)
+
+            if (DopOrnament)
             {
                 Brush btBlack = new SolidBrush(DopColor); //kolesa 2
                 g.FillEllipse(btBlack, Posx + 22, Posy + 52, 2, 4);
@@ -80,7 +84,19 @@ namespace WindowsFormsTep
                 g.FillEllipse(btBlack, Posx + 98, Posy + 52, 2, 4);
                 g.FillEllipse(btBlack, Posx + 111, Posy + 52, 2, 4);
             }
-            if (Tube) //trub2
+            if (Trumpets)//1
+            {
+                Brush w = new SolidBrush(DopColor);
+                List<Point> tw = new List<Point>(4);
+                tw.Add(new Point(Posx + 90, Posy + 9));
+                tw.Add(new Point(Posx + 105, Posy + 9));
+                tw.Add(new Point(Posx + 105, Posy + 20));
+                tw.Add(new Point(Posx + 90, Posy + 20));
+
+                g.FillPolygon(w, tw.ToArray<Point>());
+            }
+
+            if (Trumpets) //trub2
             {
                 Brush e = new SolidBrush(DopColor);
                 List<Point> te = new List<Point>(4);
@@ -90,7 +106,8 @@ namespace WindowsFormsTep
                 te.Add(new Point(Posx + 65, Posy + 20));
                 g.FillPolygon(e, te.ToArray<Point>());
             }
-            if (Tube)//trub3
+
+            if (Trumpets)//trub3
             {
                 Brush r = new SolidBrush(DopColor);
                 List<Point> tr = new List<Point>(4);
@@ -118,6 +135,7 @@ namespace WindowsFormsTep
                 ty.Add(new Point(Posx + 93, Posy + 22));
                 ty.Add(new Point(Posx + 93, Posy + 50));
                 ty.Add(new Point(Posx + 90, Posy + 50));
+
                 g.FillPolygon(y, ty.ToArray<Point>());
             }
         }

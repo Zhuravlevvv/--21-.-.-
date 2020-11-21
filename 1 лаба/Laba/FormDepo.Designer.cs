@@ -29,8 +29,7 @@
         private void InitializeComponent()
         {
             this.pictureBoxDepo = new System.Windows.Forms.PictureBox();
-            this.buttonSetTep = new System.Windows.Forms.Button();
-            this.buttonSetLoc = new System.Windows.Forms.Button();
+            this.buttonAddTrain = new System.Windows.Forms.Button();
             this.groupBoxTake = new System.Windows.Forms.GroupBox();
             this.buttonTakeTep = new System.Windows.Forms.Button();
             this.labelPlace = new System.Windows.Forms.Label();
@@ -53,27 +52,16 @@
             this.pictureBoxDepo.TabIndex = 0;
             this.pictureBoxDepo.TabStop = false;
             // 
-            // buttonSetTep
+            // buttonAddTrain
             // 
-            this.buttonSetTep.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.buttonSetTep.Location = new System.Drawing.Point(768, 142);
-            this.buttonSetTep.Name = "buttonSetTep";
-            this.buttonSetTep.Size = new System.Drawing.Size(101, 53);
-            this.buttonSetTep.TabIndex = 1;
-            this.buttonSetTep.Text = "Припарковать тепловоз";
-            this.buttonSetTep.UseVisualStyleBackColor = true;
-            this.buttonSetTep.Click += new System.EventHandler(this.buttonSetTep_Click);
-            // 
-            // buttonSetLoc
-            // 
-            this.buttonSetLoc.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.buttonSetLoc.Location = new System.Drawing.Point(875, 142);
-            this.buttonSetLoc.Name = "buttonSetLoc";
-            this.buttonSetLoc.Size = new System.Drawing.Size(93, 53);
-            this.buttonSetLoc.TabIndex = 2;
-            this.buttonSetLoc.Text = "Припарковать локомотив";
-            this.buttonSetLoc.UseVisualStyleBackColor = true;
-            this.buttonSetLoc.Click += new System.EventHandler(this.buttonSetLoc_Click);
+            this.buttonAddTrain.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.buttonAddTrain.Location = new System.Drawing.Point(768, 142);
+            this.buttonAddTrain.Name = "buttonAddTrain";
+            this.buttonAddTrain.Size = new System.Drawing.Size(200, 53);
+            this.buttonAddTrain.TabIndex = 1;
+            this.buttonAddTrain.Text = "Припарковать поезд";
+            this.buttonAddTrain.UseVisualStyleBackColor = true;
+            this.buttonAddTrain.Click += new System.EventHandler(this.ButtonAddTrain_Click);
             // 
             // groupBoxTake
             // 
@@ -172,8 +160,7 @@
             this.Controls.Add(this.listBoxLevels);
             this.Controls.Add(this.buttonRemoveDepo);
             this.Controls.Add(this.groupBoxTake);
-            this.Controls.Add(this.buttonSetLoc);
-            this.Controls.Add(this.buttonSetTep);
+            this.Controls.Add(this.buttonAddTrain);
             this.Controls.Add(this.pictureBoxDepo);
             this.Name = "FormDepo";
             this.Text = "Депо";
@@ -188,8 +175,7 @@
         #endregion
 
         private System.Windows.Forms.PictureBox pictureBoxDepo;
-        private System.Windows.Forms.Button buttonSetTep;
-        private System.Windows.Forms.Button buttonSetLoc;
+        private System.Windows.Forms.Button buttonAddTrain;
         private System.Windows.Forms.GroupBox groupBoxTake;
         private System.Windows.Forms.Button buttonTakeTep;
         private System.Windows.Forms.Label labelPlace;

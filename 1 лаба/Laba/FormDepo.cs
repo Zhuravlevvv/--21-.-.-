@@ -21,7 +21,6 @@ namespace WindowsFormsTep
             Draw();
         }
         /// Заполнение listBoxLevels
-
         private void ReloadLevels()
         {
             int index = listBoxLevels.SelectedIndex;
@@ -50,60 +49,7 @@ namespace WindowsFormsTep
                 depoCollection[listBoxLevels.SelectedItem.ToString()].Draw(gr);
                 pictureBoxDepo.Image = bmp;
             }
-        }
-        /// <summary>
-        /// Припарковать тепловоз
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void buttonSetTep_Click(object sender, EventArgs e)
-        {
-            if (listBoxLevels.SelectedIndex > -1)
-            {
-                ColorDialog dialog = new ColorDialog();
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    ColorDialog dialogDop = new ColorDialog();
-                    if (dialogDop.ShowDialog() == DialogResult.OK)
-                    {
-                        var teplovoz = new Teplovoz(100, 1000, dialog.Color, dialogDop.Color,
-                        true, true);
-                        if (depoCollection[listBoxLevels.SelectedItem.ToString()] + teplovoz)
-                        {
-                            Draw();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Не припарковано!");
-                        }
-                    }
-                }
-            }
-        }
-        /// <summary>
-        /// Припарковать локомотив
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void buttonSetLoc_Click(object sender, EventArgs e)
-        {
-            if (listBoxLevels.SelectedIndex > -1)
-            {
-                ColorDialog dialog = new ColorDialog();
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    var locomotive = new Locomotive(100, 1000, dialog.Color, dopColor: Color.Red);
-                    if (depoCollection[listBoxLevels.SelectedItem.ToString()] + locomotive)
-                    {
-                        Draw();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Не припарковано!");
-                    }
-                }
-            }
-        }
+        }     
         private void buttonTakeTep_Click(object sender, EventArgs e)
         {
             if (listBoxLevels.SelectedIndex > -1)
@@ -159,6 +105,27 @@ namespace WindowsFormsTep
         private void listBoxLevels_SelectedIndexChanged(object sender, EventArgs e)
         {
             Draw();
-        }     
+        }
+        private void ButtonAddTrain_Click(object sender, EventArgs e)
+        {
+            var formShipConfig = new FormTepConfig();
+            formShipConfig.AddEvent(AddTrain);
+            formShipConfig.Show();
+        }
+
+        private void AddTrain(Train ship)
+        {
+            if (ship != null && listBoxLevels.SelectedIndex > -1)
+            {
+                if ((depoCollection[listBoxLevels.SelectedItem.ToString()]) + ship)
+                {
+                    Draw();
+                }
+                else
+                {
+                    MessageBox.Show("Поезд не удалось поставить");
+                }
+            }
+        }
     }
 }
