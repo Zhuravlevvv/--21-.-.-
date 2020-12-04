@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using NLog;
 
 namespace WindowsFormsTep
 {
@@ -14,6 +15,8 @@ namespace WindowsFormsTep
         //Возвращение списка названий парковок
         public List<string> Keys => depoStages.Keys.ToList();
 
+        private readonly Logger logger;
+
         private readonly int pictureWidth;
         private readonly int pictureHeight;
         private readonly char separator = ':';
@@ -23,6 +26,7 @@ namespace WindowsFormsTep
             depoStages = new Dictionary<string, Depo<ITrain>>();
             this.pictureWidth = pictureWidth;
             this.pictureHeight = pictureHeight;
+            logger = LogManager.GetCurrentClassLogger();
         }
         //добавление
         public void AddDepo(string name)
@@ -94,6 +98,11 @@ namespace WindowsFormsTep
 
         public bool LoadData(string filename)
         {
+            if (!File.Exists(filename))
+            {
+                logger.Warn("Выбран неверный файл для загрузки!");
+                throw new FileNotFoundException();
+            }
             using (StreamReader sr = new StreamReader(filename))
             {
                 Train _train = null;
@@ -103,40 +112,47 @@ namespace WindowsFormsTep
 
                 if (line.Contains("DepoCollection"))
                 {
+                    //очищаем записи
                     depoStages.Clear();
-                    line = sr.ReadLine();
-                    while (line != null)
-                    {
-                        if (line.Contains("Depo"))
-                        {
-                            key = line.Split(separator)[1];
-                            depoStages.Add(key, new Depo<ITrain>(pictureWidth, pictureHeight));
-                            line = sr.ReadLine();
-                            continue;
-                        }
-                        if (string.IsNullOrEmpty(line))
-                        {
-                            line = sr.ReadLine();
-                            continue;
-                        }
-                        if (line.Split(separator)[0] == "Locomotive")
-                        {
-                            _train = new Locomotive(line.Split(separator)[1]);
-                        }
-                        else if (line.Split(separator)[0] == "Teplovoz")
-                        {
-                            _train = new Teplovoz(line.Split(separator)[1]);
-                        }
-                        var result = depoStages[key] + _train;
-                        if (!result)
-                        {
-                            return false;
-                        }
-                        line = sr.ReadLine();
-                    }
-                    return true;
                 }
-                return false;
+                else
+                {
+                    //если нет такой записи, то это не те данные
+                    logger.Warn("Выбран неверный формат файла!");
+                    throw new FormatException("Неверный формат файла");
+                }
+                line = sr.ReadLine();
+                while (line != null)
+                {
+                    if (line.Contains("Depo"))
+                    {
+                        key = line.Split(separator)[1];
+                        depoStages.Add(key, new Depo<ITrain>(pictureWidth, pictureHeight));
+                        line = sr.ReadLine();
+                        continue;
+                    }
+                    if (string.IsNullOrEmpty(line))
+                    {
+                        line = sr.ReadLine();
+                        continue;
+                    }
+                    if (line.Split(separator)[0] == "Locomotive")
+                    {
+                        _train = new Locomotive(line.Split(separator)[1]);
+                    }
+                    else if (line.Split(separator)[0] == "Teplovoz")
+                    {
+                        _train = new Teplovoz(line.Split(separator)[1]);
+                    }
+                    var result = depoStages[key] + _train;
+                    if (!result)
+                    {
+                        logger.Warn("При загрузке файла вызвано исключение DepoOccupiedPlaceException");
+                        throw new DepoOccupiedPlaceException();
+                    }
+                    line = sr.ReadLine();
+                }
+                return true;
             }
         }
     }

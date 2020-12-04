@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using NLog;
 
 namespace WindowsFormsTep
 {
@@ -14,11 +15,13 @@ namespace WindowsFormsTep
     {
         private readonly DepoCollection depoCollection;
 
+        private readonly Logger logger;
+
         public FormDepo()
         {
             InitializeComponent();
             depoCollection = new DepoCollection(pictureBoxDepo.Width, pictureBoxDepo.Height);
-            Draw();
+            logger = LogManager.GetCurrentClassLogger();
         }
         /// Заполнение listBoxLevels
         private void ReloadLevels()
@@ -49,12 +52,12 @@ namespace WindowsFormsTep
                 depoCollection[listBoxLevels.SelectedItem.ToString()].Draw(gr);
                 pictureBoxDepo.Image = bmp;
             }
-        }     
+        }
         private void buttonTakeTep_Click(object sender, EventArgs e)
         {
-            if (listBoxLevels.SelectedIndex > -1)
+            if (listBoxLevels.SelectedIndex > -1 && maskedTextBoxPlace.Text != "")
             {
-                if (maskedTextBoxPlace.Text != "")
+                try
                 {
                     var teplovoz = depoCollection[listBoxLevels.SelectedItem.ToString()] - Convert.ToInt32(maskedTextBoxPlace.Text);
                     if (teplovoz != null)
@@ -63,9 +66,19 @@ namespace WindowsFormsTep
                         form.SetTrain(teplovoz);
                         form.ShowDialog();
                     }
+                    logger.Info($"Забрали поезд {teplovoz} с места {maskedTextBoxPlace.Text}");
                     Draw();
                 }
-
+                catch (DepoNotFoundException ex)
+                {
+                    logger.Warn("Вызвана ошибка DepoNotFoundException");
+                    MessageBox.Show(ex.Message, "Не найдено", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (Exception ex)
+                {
+                    logger.Warn("Вызвана неизвестная ошибка при удалении поезда");
+                    MessageBox.Show(ex.Message, "Неизвестная ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
         /// <summary>
@@ -82,6 +95,7 @@ namespace WindowsFormsTep
                 return;
             }
             depoCollection.AddDepo(textBoxNewLevelName.Text);
+            logger.Info($"Добавили депо {textBoxNewLevelName.Text}");
             textBoxNewLevelName.Text = "";
             ReloadLevels();
         }
@@ -98,12 +112,14 @@ namespace WindowsFormsTep
                 MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     depoCollection.DeleteDepo(listBoxLevels.Text);
+                    logger.Info($"Удалили депо {listBoxLevels.SelectedItem.ToString()}");
                     ReloadLevels();
                 }
             }
         }
         private void listBoxLevels_SelectedIndexChanged(object sender, EventArgs e)
         {
+            logger.Info($"Перешли на депо {listBoxLevels.SelectedItem.ToString()}");
             Draw();
         }
         private void ButtonAddTrain_Click(object sender, EventArgs e)
@@ -112,17 +128,33 @@ namespace WindowsFormsTep
             formShipConfig.AddEvent(AddTrain);
             formShipConfig.Show();
         }
-        private void AddTrain(Train ship)
+        private void AddTrain(Train train)
         {
-            if (ship != null && listBoxLevels.SelectedIndex > -1)
+            if (train != null && listBoxLevels.SelectedIndex > -1)
             {
-                if ((depoCollection[listBoxLevels.SelectedItem.ToString()]) + ship)
+                try
                 {
+                    if ((depoCollection[listBoxLevels.SelectedItem.ToString()]) + train)
+                    {
+                        Draw();
+                        logger.Info($"Поезд {train} добавлен!");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Корабль не удалось поставить");
+                    }
                     Draw();
                 }
-                else
+                catch (DepoOverflowException ex)
                 {
-                    MessageBox.Show("Поезд не удалось поставить");
+                    logger.Warn("Вызвано исключение переполнения депо!");
+                    MessageBox.Show(ex.Message, "Переполнение", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (Exception ex)
+                {
+                    logger.Warn("Вызвана неизвестная ошибка!");
+                    MessageBox.Show(ex.Message, "Неизвестная ошибка!",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -130,13 +162,18 @@ namespace WindowsFormsTep
         {
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                if (depoCollection.SaveData(saveFileDialog.FileName))
+                try
                 {
-                    MessageBox.Show("Сохранение прошло успешно", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    depoCollection.SaveData(saveFileDialog.FileName);
+                    MessageBox.Show("Сохранение прошло успешно", "Результат",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    logger.Info("Сохранено в файл " + saveFileDialog.FileName);
                 }
-                else
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Не сохранилось", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    logger.Warn("Вызвана неизвестная ошибка при сохранении");
+                    MessageBox.Show(ex.Message, "Неизвестная ошибка при сохранении!",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -145,15 +182,31 @@ namespace WindowsFormsTep
         {
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                if (depoCollection.LoadData(openFileDialog.FileName))
+                try
                 {
-                    MessageBox.Show("Загрузили", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    depoCollection.LoadData(openFileDialog.FileName);
+                    MessageBox.Show("Загрузили", "Результат", MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+                    logger.Info("Загружено из файла " + openFileDialog.FileName);
                     ReloadLevels();
                     Draw();
                 }
-                else
+                catch (DepoOccupiedPlaceException ex)
                 {
-                    MessageBox.Show("Не загрузили", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    logger.Warn("Вызвана ошибка DepoOccupiedPlaceException");
+                    MessageBox.Show(ex.Message, "Занятое место", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (FormatException ex)
+                {
+                    logger.Warn(ex.Message);
+                    MessageBox.Show(ex.Message, "Ошибка при загрузке!",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (Exception ex)
+                {
+                    logger.Warn("Вызвана неизвестная ошибка при загрузке");
+                    MessageBox.Show(ex.Message, "Неизвестная ошибка при загрузке",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }

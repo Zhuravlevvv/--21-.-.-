@@ -4,12 +4,15 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NLog;
 
 namespace WindowsFormsTep
 {
     public class Depo<T> where T : class, ITrain
     {
         private readonly List<T> _places;
+
+        private readonly Logger logger = LogManager.GetCurrentClassLogger();
 
         private readonly int _maxCount;
 
@@ -34,7 +37,8 @@ namespace WindowsFormsTep
         {
             if (p._places.Count >= p._maxCount - 3)
             {
-                return false;
+                p.logger.Warn("Вызвано исключение DepoOverflowException");
+                throw new DepoOverflowException();
             }
             p._places.Add(teplovoz);
             return true;
@@ -43,7 +47,8 @@ namespace WindowsFormsTep
         {
             if (index <= -1 || index >= p._places.Count)
             {
-                return null;
+                p.logger.Warn("Вызвано исключение DepoNotFoundException");
+                throw new DepoNotFoundException(index);
             }
             T locomotive = p._places[index];
             p._places.RemoveAt(index);
