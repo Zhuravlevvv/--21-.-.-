@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace WindowsFormsTep
 {
-    public class Teplovoz : Locomotive
+    public class Teplovoz : Locomotive, IEquatable<Teplovoz>
     {
         public bool Tube { protected set; get; }
         public bool Line { protected set; get; }
@@ -159,6 +159,66 @@ namespace WindowsFormsTep
             return $"{base.ToString()}{separator}{DopColor.Name}" +
                    $"{separator}{Line}{separator}{Tube}" +
                    $"{separator}{Trumpets}{separator}{DopOrnament}";
+        }
+        public bool Equals(Teplovoz other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+            if (GetType().Name != other.GetType().Name)
+            {
+                return false;
+            }
+            if (MaxSpeed != other.MaxSpeed)
+            {
+                return false;
+            }
+            if (Weight != other.Weight)
+            {
+                return false;
+            }
+            if (MainColor != other.MainColor)
+            {
+                return false;
+            }
+            if (DopColor != other.DopColor)
+            {
+                return false;
+            }
+            if (Line != other.Line)
+            {
+                return false;
+            }
+            if (Tube != other.Tube)
+            {
+                return false;
+            }
+            if (Trumpets != other.Trumpets)
+            {
+                return false;
+            }
+            if (DopOrnament != other.DopOrnament)
+            {
+                return false;
+            }
+            return true;
+        }
+        // перегрузка метода от object
+        public override bool Equals(Object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            if (!(obj is Teplovoz tepObj))
+            {
+                return false;
+            }
+            else
+            {
+                return Equals(tepObj);
+            }
         }
     }
 }

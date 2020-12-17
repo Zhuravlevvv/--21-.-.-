@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WindowsFormsTep
 {
-    public class Locomotive : Train
+    public class Locomotive : Train, IEquatable<Locomotive>
     {
         protected readonly int trainWidth = 120;
         protected readonly int trainHeight = 80;
@@ -109,6 +109,45 @@ namespace WindowsFormsTep
         public override string ToString()
         {
             return $"{MaxSpeed}{separator}{Weight}{separator}{MainColor.Name}";
+        }
+        public bool Equals(Locomotive other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+            if (GetType().Name != other.GetType().Name)
+            {
+                return false;
+            }
+            if (MaxSpeed != other.MaxSpeed)
+            {
+                return false;
+            }
+            if (Weight != other.Weight)
+            {
+                return false;
+            }
+            if (MainColor != other.MainColor)
+            {
+                return false;
+            }
+            return true;
+        }
+        public override bool Equals(Object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            if (!(obj is Locomotive locObj))
+            {
+                return false;
+            }
+            else
+            {
+                return Equals(locObj);
+            }
         }
     }
 }

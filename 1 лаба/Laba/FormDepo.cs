@@ -210,5 +210,15 @@ namespace WindowsFormsTep
                 }
             }
         }
+
+        private void buttonSort_Click(object sender, EventArgs e)
+        {
+            if (listBoxLevels.SelectedIndex > -1)
+            {
+                depoCollection[listBoxLevels.SelectedItem.ToString()].Sort();
+                Draw();
+                logger.Info("Сортировка уровней");
+            }
+        }
     }
 }
